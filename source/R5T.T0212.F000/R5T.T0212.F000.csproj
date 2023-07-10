@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup Label="Main">
+    <TargetFramework>net6.0</TargetFramework>
+    <OutputType>Library</OutputType>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>1573;1587;1591</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Label="Package">
+    <Version>1.0.0</Version>
+    <Authors>DCoats</Authors>
+    <Company>Rivet</Company>
+    <Copyright>Copyright © Rivet 2023</Copyright>
+    <Description>Project documentation file operator functionalities.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\R5T.L0035\source\R5T.L0035\R5T.L0035.csproj" />
+    <ProjectReference Include="..\..\..\R5T.T0211\source\R5T.T0211\R5T.T0211.csproj" />
+    <ProjectReference Include="..\R5T.T0212.Z000\R5T.T0212.Z000.csproj" />
+    <ProjectReference Include="..\R5T.T0212\R5T.T0212.csproj" />
+    <ProjectReference Include="..\..\..\R5T.L0030\source\R5T.L0030\R5T.L0030.csproj" />
+    <ProjectReference Include="..\..\..\R5T.T0172\source\R5T.T0172\R5T.T0172.csproj" />
+    <ProjectReference Include="..\..\..\R5T.T0213\source\R5T.T0213\R5T.T0213.csproj" />
+    <ProjectReference Include="..\..\..\R5T.T0162\source\R5T.T0162\R5T.T0162.csproj" />
+  </ItemGroup>
+</Project>
