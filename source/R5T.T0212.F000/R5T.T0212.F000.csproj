@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup Label="Main">
     <TargetFramework>net6.0</TargetFramework>
     <OutputType>Library</OutputType>
@@ -23,5 +23,6 @@
     <ProjectReference Include="..\..\..\R5T.T0172\source\R5T.T0172\R5T.T0172.csproj" />
     <ProjectReference Include="..\..\..\R5T.T0213\source\R5T.T0213\R5T.T0213.csproj" />
     <ProjectReference Include="..\..\..\R5T.T0162\source\R5T.T0162\R5T.T0162.csproj" />
+    <ProjectReference Include="..\..\..\R5T.T0218\source\R5T.T0218\R5T.T0218.csproj" />
   </ItemGroup>
 </Project>

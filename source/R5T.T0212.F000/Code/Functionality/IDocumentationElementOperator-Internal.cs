@@ -30,28 +30,19 @@ namespace R5T.T0212.F000.Internal
             return output;
         }
 
-        /// <summary>
-        /// Gets the member element, that contains all individual member elements.
-        /// To get the individual member elements, see <see cref="Get_MemberElements(IDocumentationElement)"/>
-        /// </summary>
-        /// <param name="documentationElement"></param>
-        /// <returns></returns>
+        /// <inheritdoc cref="IDocumentationElementXmlOperator.Get_MembersElement(XElement)"/>
         public XElement Get_MembersElement(IDocumentationElement documentationElement)
         {
-            var output = Instances.XElementOperator.Get_Child(
-                documentationElement.Value,
-                Instances.XmlDocumentationFileElementNames.Members);
+            var output = Instances.DocumentationElementXmlOperator.Get_MembersElement(
+                documentationElement.Value);
 
             return output;
         }
 
         public IEnumerable<XElement> Get_MemberElements(IDocumentationElement documentationElement)
         {
-            var membersElement = this.Get_MembersElement(documentationElement);
-
-            var output = Instances.XElementOperator.Get_ChildrenWithName(
-                membersElement,
-                Instances.XmlDocumentationFileElementNames.Member);
+            var output = Instances.DocumentationElementXmlOperator.Get_MemberElements(
+                documentationElement.Value);
 
             return output;
         }

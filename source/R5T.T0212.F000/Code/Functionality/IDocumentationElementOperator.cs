@@ -79,7 +79,17 @@ namespace R5T.T0212.F000
                 documentationTarget);
 
             additionalMemberDocumentationsByIdentityName.ForEach(
-                pair => memberDocumentationsByIdentityName.Add(pair));
+                pair =>
+                {
+                    if(!memberDocumentationsByIdentityName.TryAdd(pair.Key, pair.Value))
+                    {
+                        var currentValue = memberDocumentationsByIdentityName[pair.Key];
+                        if(currentValue != pair.Value)
+                        {
+                            Console.WriteLine($"{pair.Key}: Key already exists, with different value.");
+                        }
+                    }
+                });
         }
 
         public IDictionary<IIdentityName, MemberDocumentation> Get_MemberDocumentationsByIdentityName(

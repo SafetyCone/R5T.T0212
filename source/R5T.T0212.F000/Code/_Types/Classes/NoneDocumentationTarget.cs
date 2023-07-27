@@ -10,6 +10,16 @@ namespace R5T.T0212.F000
     /// </summary>
     public class NoneDocumentationTarget : IDocumentationTarget
     {
+        #region Static
+
+        public static readonly NoneDocumentationTarget Instance = new()
+        {
+            Note = "Static Instance"
+        };
+
+        #endregion
+
+
         public string Note { get; set; }
     }
 }

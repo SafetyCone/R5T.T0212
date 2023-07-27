@@ -12,6 +12,8 @@ namespace R5T.T0212.F000
         public IIdentityName ReferencingName { get; set; }
         public IDocumentationTarget DocumentationTarget { get; set; }
 
+        public string Note { get; set; }
+
 
         public override string ToString()
         {

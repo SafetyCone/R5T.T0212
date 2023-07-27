@@ -14,5 +14,12 @@ namespace R5T.T0212.Extensions
             var output = new DocumentationFileXmlText(value);
             return output;
         }
+
+        /// <inheritdoc cref="IMemberElementXmlText"/>
+        public IMemberElementXmlText ToMemberElementXmlText(string value)
+        {
+            var output = new MemberElementXmlText(value);
+            return output;
+        }
     }
 }

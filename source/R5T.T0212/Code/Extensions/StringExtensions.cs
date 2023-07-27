@@ -10,5 +10,11 @@ namespace R5T.T0212.Extensions
         {
             return Instances.StringOperator_Extensions.ToDocumentationFileXmlText(value);
         }
+
+        /// <inheritdoc cref="IStringOperator.ToMemberElementXmlText(string)"/>
+        public static IMemberElementXmlText ToMemberElementXmlText(this string value)
+        {
+            return Instances.StringOperator_Extensions.ToMemberElementXmlText(value);
+        }
     }
 }
