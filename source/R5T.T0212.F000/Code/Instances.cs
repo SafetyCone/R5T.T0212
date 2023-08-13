@@ -19,6 +19,7 @@ namespace R5T.T0212.F000
         public static IMembersElementXmlOperator MembersElementXmlOperator => F000.MembersElementXmlOperator.Instance;
         public static F0124.IStringOperator StringOperator => F0124.StringOperator.Instance;
         public static Z0000.IStrings Strings => Z0000.Strings.Instance;
+        public static T0159.ITextOutputOperator TextOutputOperator => T0159.TextOutputOperator.Instance;
         public static F0000.ITypeNameOperator TypeNameOperator => F0000.TypeNameOperator.Instance;
         public static L0030.IXDocumentOperator XDocumentOperator => L0030.XDocumentOperator.Instance;
         public static L0030.IXElementOperator XElementOperator => L0030.XElementOperator.Instance;

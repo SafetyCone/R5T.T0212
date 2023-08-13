@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using R5T.T0132;
+using R5T.T0159;
 using R5T.T0162;
 using R5T.T0172;
 using R5T.T0181;
@@ -87,6 +88,35 @@ namespace R5T.T0212.F000
 
             var output = memberDocumentationByIdentityName.ToDictionary();
             return output;
+        }
+
+        public async Task<IMemberElement[]> Get_MemberElements(
+            IDocumentationXmlFilePath documentationXmlFilePath,
+            ITextOutput textOutput)
+        {
+            textOutput.WriteInformation("Getting member elements from documentation XML file path...\n\t{0}",
+                documentationXmlFilePath);
+
+            var documentationElement = await this.Get_DocumentationElement(documentationXmlFilePath);
+
+            var memberElements = Instances.DocumentationElementOperator.Get_MemberElements(documentationElement)
+                .Now();
+
+            textOutput.WriteInformation("Got member elements from documentation XML file path, count {0}\n\t{1}",
+                memberElements.Length,
+                documentationXmlFilePath);
+
+            return memberElements;
+        }
+
+        public Task<IMemberElement[]> Get_MemberElements(
+            IDocumentationXmlFilePath documentationXmlFilePath)
+        {
+            var textOutput = Instances.TextOutputOperator.Get_New_Null();
+
+            return this.Get_MemberElements(
+                documentationXmlFilePath,
+                textOutput);
         }
 
         public async Task<IDocumentationFileDocument> Load(IDocumentationXmlFilePath documentationXmlFilePath)

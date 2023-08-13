@@ -78,7 +78,7 @@ namespace R5T.T0212.F000
 
             var text = stringBuilder.ToString();
 
-            return $"{memberDocumentation.IdentityName}:\n{text}\n";
+            return $"{memberDocumentation.IdentityName}:\n{memberDocumentation.DocumentationTarget}\n{text}\n";
         }
 
         public void Describe_ToFile_Synchronous(
