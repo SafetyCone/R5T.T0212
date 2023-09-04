@@ -7,7 +7,9 @@ namespace R5T.T0212.F000
     {
         public static Z0000.ICharacters Characters => Z0000.Characters.Instance;
         public static IDocumentationElementOperator DocumentationElementOperator => F000.DocumentationElementOperator.Instance;
+        public static Platform.IDocumentationElementOperator DocumentationElementOperator_Platform => Platform.DocumentationElementOperator.Instance;
         public static IDocumentationElementXmlOperator DocumentationElementXmlOperator => F000.DocumentationElementXmlOperator.Instance;
+        public static IDocumentationFileOperator DocumentationFileOperator => F000.DocumentationFileOperator.Instance;
         public static IDocumentationFileXmlOperator DocumentationFileXmlOperator => F000.DocumentationFileXmlOperator.Instance;
         public static IDocumentationTargetOperator DocumentationTargetOperator => F000.DocumentationTargetOperator.Instance;
         public static F0000.IEnumerableOperator EnumerableOperator => F0000.EnumerableOperator.Instance;
@@ -15,6 +17,7 @@ namespace R5T.T0212.F000
         public static L0030.ILoadOptionSets LoadOptionSets => L0030.LoadOptionSets.Instance;
         public static IMemberDocumentationOperator MemberDocumentationOperator => F000.MemberDocumentationOperator.Instance;
         public static IMemberElementOperator MemberElementOperator => F000.MemberElementOperator.Instance;
+        public static Platform.IMemberElementOperator MemberElementOperator_Platform => Platform.MemberElementOperator.Instance;
         public static IMemberElementOperations MemberElementOperations => F000.MemberElementOperations.Instance;
         public static IMembersElementXmlOperator MembersElementXmlOperator => F000.MembersElementXmlOperator.Instance;
         public static F0124.IStringOperator StringOperator => F0124.StringOperator.Instance;

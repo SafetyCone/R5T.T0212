@@ -21,6 +21,7 @@ namespace R5T.T0212.F000
     public partial interface IMemberElementOperator : IFunctionalityMarker
     {
         private static Internal.IMemberElementOperator Internal => F000.Internal.MemberElementOperator.Instance;
+        private static Platform.IMemberElementOperator Platform => F000.Platform.MemberElementOperator.Instance;
 
 
         public IMemberElement Clone(IMemberElement memberElement)
@@ -34,7 +35,7 @@ namespace R5T.T0212.F000
 
         public IIdentityName Get_IdentityName(IMemberElement memberElement)
         {
-            var output = Internal.Get_NameAttributeValue(memberElement)
+            var output = Platform.Get_IdentityName(memberElement)
                 .ToIdentityName();
 
             return output;
