@@ -85,7 +85,7 @@ namespace R5T.T0212.F000
             string filePath,
             IEnumerable<MemberDocumentation> memberDocumentations)
         {
-            Instances.FileOperator.WriteLines_Synchronous(
+            Instances.FileOperator.Write_Lines_Synchronous(
                 filePath,
                 this.Describe(memberDocumentations));
         }

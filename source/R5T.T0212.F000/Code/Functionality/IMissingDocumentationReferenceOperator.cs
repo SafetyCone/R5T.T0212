@@ -36,7 +36,7 @@ namespace R5T.T0212.F000
             ITextFilePath filePath,
             IEnumerable<MissingDocumentationReference> missingDocumentationReferences)
         {
-            Instances.FileOperator.WriteLines_Synchronous(
+            Instances.FileOperator.Write_Lines_Synchronous(
                 filePath.Value,
                 Instances.EnumerableOperator.AlternateWith(
                     this.Describe(missingDocumentationReferences),
