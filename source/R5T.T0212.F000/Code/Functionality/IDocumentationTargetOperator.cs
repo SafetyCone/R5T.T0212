@@ -21,7 +21,7 @@ namespace R5T.T0212.F000
 
         public string Describe_UnknownType(IDocumentationTarget documentationTarget)
         {
-            var output = $"{Instances.TypeNameOperator.GetTypeNameOf(documentationTarget)}: unknown documentation target type";
+            var output = $"{Instances.TypeNameOperator.Get_TypeNameOf(documentationTarget)}: unknown documentation target type";
             return output;
         }
 
