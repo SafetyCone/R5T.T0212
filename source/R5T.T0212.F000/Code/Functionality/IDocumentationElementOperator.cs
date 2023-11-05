@@ -1,14 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
+using R5T.L0069.T000;
 using R5T.T0162;
 using R5T.T0132;
 using R5T.T0213;
 using R5T.T0213.Extensions;
 
 using R5T.T0212.Extensions;
-
+using R5T.T0172;
 
 namespace R5T.T0212.F000
 {
@@ -52,11 +54,32 @@ namespace R5T.T0212.F000
             return output;
         }
 
-        public IEnumerable<IMemberElement> Get_MemberElements(IDocumentationElement documentationElement)
+        /// <summary>
+        /// Raw in the sense that no reformatting of the XML content is performed.
+        /// </summary>
+        public IEnumerable<IMemberElement> Enumerate_MemberElements_Raw(IDocumentationElement documentationElement)
         {
-            var output = Internal.Get_MemberElements(documentationElement)
+            var output = Internal.Enumerate_MemberElements_Raw(documentationElement)
                 .ToMemberElements();
 
+            return output;
+        }
+
+        /// <inheritdoc cref="IDocumentationFileDocumentOperator.Get_DocumentationElement(IDocumentationFileDocument)"/>
+        public async Task<IDocumentationElement> Get_DocumentationElement(IDocumentationXmlFilePath documentationXmlFilePath)
+        {
+            var document = await Instances.DocumentationFileDocumentOperator.Load(documentationXmlFilePath);
+
+            var output = Instances.DocumentationFileDocumentOperator.Get_DocumentationElement(document);
+            return output;
+        }
+
+        /// <inheritdoc cref="IDocumentationFileDocumentOperator.Get_DocumentationElement(IDocumentationFileDocument)"/>
+        public IDocumentationElement Get_DocumentationElement(IDocumentationFileXmlText documentationFileXmlText)
+        {
+            var document = Instances.DocumentationFileDocumentOperator.Parse(documentationFileXmlText);
+
+            var output = Instances.DocumentationFileDocumentOperator.Get_DocumentationElement(document);
             return output;
         }
 
@@ -64,7 +87,7 @@ namespace R5T.T0212.F000
             IDocumentationElement documentationElement,
             IDocumentationTarget documentationTarget)
         {
-            var memberDocumentations = this.Get_MemberElements(documentationElement)
+            var memberDocumentations = this.Enumerate_MemberElements_Raw(documentationElement)
                 .Select(Instances.MemberElementOperations.Get_MemberDocumentation(documentationTarget))
                 ;
 
@@ -93,7 +116,7 @@ namespace R5T.T0212.F000
                 });
         }
 
-        public IDictionary<IIdentityName, MemberDocumentation> Get_MemberDocumentationsByIdentityName(
+        public Dictionary<IIdentityName, MemberDocumentation> Get_MemberDocumentationsByIdentityName(
             IDocumentationElement documentationElement,
             IDocumentationTarget documentationTarget)
         {

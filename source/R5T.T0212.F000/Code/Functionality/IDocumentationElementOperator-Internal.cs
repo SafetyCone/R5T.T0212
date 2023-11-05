@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 
 using R5T.T0132;
@@ -39,9 +40,12 @@ namespace R5T.T0212.F000.Internal
             return output;
         }
 
-        public IEnumerable<XElement> Get_MemberElements(IDocumentationElement documentationElement)
+        /// <summary>
+        /// Raw in the sense that no reformatting of the XML content is performed.
+        /// </summary>
+        public IEnumerable<XElement> Enumerate_MemberElements_Raw(IDocumentationElement documentationElement)
         {
-            var output = Instances.DocumentationElementXmlOperator.Get_MemberElements(
+            var output = Instances.DocumentationElementXmlOperator.Enumerate_MemberElements_Raw(
                 documentationElement.Value);
 
             return output;

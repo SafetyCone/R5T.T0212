@@ -1,14 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
-using R5T.T0162;
 using R5T.T0132;
-using R5T.T0213;
-using R5T.T0213.Extensions;
-
-using R5T.T0212.Extensions;
 
 
 namespace R5T.T0212.F000.Platform
@@ -18,8 +11,8 @@ namespace R5T.T0212.F000.Platform
     {
         public string[] Get_IdentityNames(IDocumentationElement documentationElement)
         {
-            var memberDocumentations = Instances.DocumentationElementOperator.Get_MemberElements(documentationElement)
-                .Select(memberElement => Instances.MemberElementOperator_Platform.Get_IdentityName(memberElement))
+            var memberDocumentations = Instances.DocumentationElementOperator.Enumerate_MemberElements_Raw(documentationElement)
+                .Select(memberElement => Instances.MemberElementOperator_Platform.Get_IdentityString(memberElement))
                 .Now();
 
             return memberDocumentations;

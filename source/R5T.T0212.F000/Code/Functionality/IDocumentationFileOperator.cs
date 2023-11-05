@@ -5,6 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
+using R5T.N0000;
+
+using R5T.L0069.T000;
 using R5T.T0132;
 using R5T.T0159;
 using R5T.T0162;
@@ -18,11 +21,12 @@ namespace R5T.T0212.F000
     [FunctionalityMarker]
     public partial interface IDocumentationFileOperator : IFunctionalityMarker
     {
-        public async Task Add_MemberDocumentationsByIdentityName(IDocumentationXmlFilePath documentationXmlFilePath,
+        public async Task Add_MemberDocumentationsByIdentityName(
+            IDocumentationXmlFilePath documentationXmlFilePath,
             IDictionary<IIdentityName, MemberDocumentation> memberDocumentationsByIdentityName,
             IDocumentationTarget documentationTarget)
         {
-            var documentationElement = await this.Get_DocumentationElement(documentationXmlFilePath);
+            var documentationElement = await Instances.DocumentationElementOperator.Get_DocumentationElement(documentationXmlFilePath);
 
             Instances.DocumentationElementOperator.Add_MemberDocumentationsByIdentityName(
                 documentationElement,
@@ -30,41 +34,11 @@ namespace R5T.T0212.F000
                 documentationTarget);
         }
 
-        /// <summary>
-        /// Gets the root <see cref="Z000.IXmlDocumentationFileElementNames.Doc"/> element of the documentation file.
-        /// </summary>
-        public IDocumentationElement Get_DocumentationElement(IDocumentationFileDocument documentationFileDocument)
-        {
-            var output = Instances.DocumentationFileXmlOperator.Get_DocumentationElement(
-                documentationFileDocument.Value)
-                .ToDocumentationElement();
-
-            return output;
-        }
-
-        /// <inheritdoc cref="Get_DocumentationElement(IDocumentationFileDocument)"/>
-        public async Task<IDocumentationElement> Get_DocumentationElement(IDocumentationXmlFilePath documentationXmlFilePath)
-        {
-            var document = await this.Load(documentationXmlFilePath);
-
-            var output = this.Get_DocumentationElement(document);
-            return output;
-        }
-
-        /// <inheritdoc cref="Get_DocumentationElement(IDocumentationFileDocument)"/>
-        public IDocumentationElement Get_DocumentationElement(IDocumentationFileXmlText documentationFileXmlText)
-        {
-            var document = this.Parse(documentationFileXmlText);
-
-            var output = this.Get_DocumentationElement(document);
-            return output;
-        }
-
         public async Task<IDictionary<IIdentityName, MemberDocumentation>> Get_MemberDocumentationsByIdentityName(
             IDocumentationXmlFilePath documentationXmlFilePath,
             IDocumentationTarget documentationTarget)
         {
-            var documentationElement = await this.Get_DocumentationElement(documentationXmlFilePath);
+            var documentationElement = await Instances.DocumentationElementOperator.Get_DocumentationElement(documentationXmlFilePath);
 
             var output = Instances.DocumentationElementOperator.Get_MemberDocumentationsByIdentityName(
                 documentationElement,
@@ -91,16 +65,19 @@ namespace R5T.T0212.F000
             return output;
         }
 
-        public async Task<IMemberElement[]> Get_MemberElements(
+        /// <summary>
+        /// Raw in the sense that no reformatting of the XML content is performed.
+        /// </summary>
+        public async Task<IMemberElement[]> Get_MemberElements_Raw(
             IDocumentationXmlFilePath documentationXmlFilePath,
             ITextOutput textOutput)
         {
             textOutput.WriteInformation("Getting member elements from documentation XML file path...\n\t{0}",
                 documentationXmlFilePath);
 
-            var documentationElement = await this.Get_DocumentationElement(documentationXmlFilePath);
+            var documentationElement = await Instances.DocumentationElementOperator.Get_DocumentationElement(documentationXmlFilePath);
 
-            var memberElements = Instances.DocumentationElementOperator.Get_MemberElements(documentationElement)
+            var memberElements = Instances.DocumentationElementOperator.Enumerate_MemberElements_Raw(documentationElement)
                 .Now();
 
             textOutput.WriteInformation("Got member elements from documentation XML file path, count {0}\n\t{1}",
@@ -110,71 +87,82 @@ namespace R5T.T0212.F000
             return memberElements;
         }
 
-        public Task<IMemberElement[]> Get_MemberElements(
+        /// <summary>
+        /// Raw in the sense that no reformatting of the XML content is performed.
+        /// </summary>
+        public Task<IMemberElement[]> Get_MemberElements_Raw(
             IDocumentationXmlFilePath documentationXmlFilePath)
         {
             var textOutput = Instances.TextOutputOperator.Get_New_Null();
 
-            return this.Get_MemberElements(
+            return this.Get_MemberElements_Raw(
                 documentationXmlFilePath,
                 textOutput);
         }
 
-        public async Task<IDocumentationFileDocument> Load(IDocumentationXmlFilePath documentationXmlFilePath)
+        /// <summary>
+        /// Test if a file is a documentation XML file.
+        /// </summary>
+        public async Task<WasFound<IDocumentationFileDocument>> Is_DocumentationXmlFile(IXmlFilePath xmlFilePath)
         {
-            var xDocument = await Instances.XDocumentOperator.Load(
-                documentationXmlFilePath,
-                // Ensure to preserve whitespace.
-                Instances.LoadOptionSets.PreserveWhitespace);
-
-            var output = xDocument.ToDocumentationFileDocument();
-            return output;
+            var isXmlFile = await Instances.XmlFileOperator.Is_XmlFile(xmlFilePath);
+            if(isXmlFile)
+            {
+                var output = this.Is_DocumentationFileDocument(isXmlFile.Result);
+                return output;
+            }
+            else
+            {
+                return WasFound.NotFound<IDocumentationFileDocument>();
+            }
         }
 
-        public IDocumentationFileDocument Parse(IDocumentationFileXmlText documentationFileXmlText)
+        public WasFound<IDocumentationFileDocument> Is_DocumentationFileDocument(XDocument document)
         {
-            var xDocument = Instances.XDocumentOperator.Parse(
-                documentationFileXmlText,
-                // Ensure to preserve whitespace.
-                Instances.LoadOptionSets.PreserveWhitespace);
+            // Assume failure.
+            var output = WasFound.NotFound<IDocumentationFileDocument>();
 
-            var output = xDocument.ToDocumentationFileDocument();
-            return output;
-        }
+            // Does it have a root <doc> element?
+            var hasDocRoot = Instances.XDocumentOperator.Has_Root(
+                document,
+                Instances.XmlDocumentationFileElementNames.Doc);
+            if (!hasDocRoot)
+            {
+                return output;
+            }
 
-        public Task Save(
-            IXmlFilePath xmlFilePath,
-            IDocumentationFileDocument documentationFileDocument)
-        {
-            return this.Save(
-                xmlFilePath.Value,
-                documentationFileDocument);
-        }
+            var rootElement = hasDocRoot.Result;
 
-        public Task Save(
-            string xmlFilePath,
-            IDocumentationFileDocument documentationFileDocument)
-        {
-            return Instances.XDocumentOperator.Save(
-                xmlFilePath,
-                documentationFileDocument.Value,
-                // Use saveoptions value that preserves whitespace.
-                SaveOptions.DisableFormatting);
-        }
+            // Does the root <doc> element have a child <assembly> element, with a child <name> element?
+            var hasAssemblyElement = Instances.XElementOperator.Has_Child(
+                rootElement,
+                Instances.XmlDocumentationFileElementNames.Assembly);
+            if (!hasAssemblyElement)
+            {
+                return output;
+            }
 
-        public IDocumentationFileXmlText ToDocumentationFileXmlText(IDocumentationFileDocument documentationFileDocument)
-        {
-            return this.ToString(documentationFileDocument)
-                .ToDocumentationFileXmlText();
-        }
+            var assemblyElement = hasAssemblyElement.Result;
 
-        public string ToString(IDocumentationFileDocument documentationFileDocument)
-        {
-            var output = Instances.XDocumentOperator.WriteToString(
-                documentationFileDocument.Value,
-                // Use saveoptions value that preserves whitespace.
-                SaveOptions.DisableFormatting);
+            var hasAssemblyNameElement = Instances.XElementOperator.Has_Child(
+                assemblyElement,
+                Instances.XmlDocumentationFileElementNames.Name);
+            if(!hasAssemblyNameElement)
+            {
+                return output;
+            }
 
+            // Does the root <doc> element have a child <members> element?
+            var hasMembersElement = Instances.XElementOperator.Has_Child(
+                rootElement,
+                Instances.XmlDocumentationFileElementNames.Members);
+            if (!hasMembersElement)
+            {
+                return output;
+            }
+
+            // Success.
+            output = WasFound.Found(document.ToDocumentationFileDocument());
             return output;
         }
     }

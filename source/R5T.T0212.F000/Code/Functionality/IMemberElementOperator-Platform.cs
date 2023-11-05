@@ -23,7 +23,7 @@ namespace R5T.T0212.F000.Platform
         private static Internal.IMemberElementOperator Internal => F000.Internal.MemberElementOperator.Instance;
 
 
-        public string Get_IdentityName(IMemberElement memberElement)
+        public string Get_IdentityString(IMemberElement memberElement)
         {
             var output = Internal.Get_NameAttributeValue(memberElement);
             return output;

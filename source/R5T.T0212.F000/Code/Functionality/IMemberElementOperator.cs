@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
+using R5T.L0069.T000;
 using R5T.T0132;
 using R5T.T0162;
 using R5T.T0162.Extensions;
@@ -20,8 +21,10 @@ namespace R5T.T0212.F000
     [FunctionalityMarker]
     public partial interface IMemberElementOperator : IFunctionalityMarker
     {
-        private static Internal.IMemberElementOperator Internal => F000.Internal.MemberElementOperator.Instance;
-        private static Platform.IMemberElementOperator Platform => F000.Platform.MemberElementOperator.Instance;
+#pragma warning disable IDE1006 // Naming Styles
+        //private Internal.IMemberElementOperator _Internal => Internal.MemberElementOperator.Instance;
+        public Platform.IMemberElementOperator _Platform => Platform.MemberElementOperator.Instance;
+#pragma warning restore IDE1006 // Naming Styles
 
 
         public IMemberElement Clone(IMemberElement memberElement)
@@ -35,7 +38,7 @@ namespace R5T.T0212.F000
 
         public IIdentityName Get_IdentityName(IMemberElement memberElement)
         {
-            var output = Platform.Get_IdentityName(memberElement)
+            var output = _Platform.Get_IdentityString(memberElement)
                 .ToIdentityName();
 
             return output;
@@ -90,7 +93,7 @@ namespace R5T.T0212.F000
         {
             return this.Get_MemberDocumentation(
                 memberElement,
-                NoneDocumentationTarget.Instance);
+                Instances.DocumentationTargets.None);
         }
 
         /// <summary>
@@ -202,14 +205,14 @@ namespace R5T.T0212.F000
             return Instances.XElementOperator.To_File(
                 xmlFilePath,
                 memberElement.Value,
-                Instances.XmlWriterSettingSets.Fragment);
+                Instances.XmlWriterSettingsSets.Fragment);
         }
 
         public string ToString(IMemberElement memberElement)
         {
             var output = Instances.XElementOperator.To_Text(
                 memberElement.Value,
-                Instances.XmlWriterSettingSets.Fragment);
+                Instances.XmlWriterSettingsSets.Fragment);
 
             return output;
         }

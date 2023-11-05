@@ -13,9 +13,12 @@ namespace R5T.T0212.F000
     [FunctionalityMarker]
     public partial interface IMembersElementXmlOperator : IFunctionalityMarker
     {
-        public IEnumerable<XElement> Get_MemberElements(XElement membersElement)
+        /// <summary>
+        /// Raw in the sense that no reformatting of the XML content is performed.
+        /// </summary>
+        public IEnumerable<XElement> Enumerate_MemberElements_Raw(XElement membersElement)
         {
-            var output = Instances.XElementOperator.Get_ChildrenWithName(
+            var output = Instances.XElementOperator.Enumerate_ChildrenWithName(
                 membersElement,
                 Instances.XmlDocumentationFileElementNames.Member);
 

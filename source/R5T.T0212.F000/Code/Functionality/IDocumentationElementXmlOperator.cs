@@ -12,7 +12,7 @@ namespace R5T.T0212.F000
     {
         /// <summary>
         /// Gets the member element, that contains all individual member elements.
-        /// To get the individual member elements, see <see cref="Get_MemberElements(XElement)"/>
+        /// To get the individual member elements, see <see cref="Enumerate_MemberElements_Raw(XElement)"/>
         /// </summary>
         public XElement Get_MembersElement(XElement documentationElement)
         {
@@ -23,11 +23,14 @@ namespace R5T.T0212.F000
             return output;
         }
 
-        public IEnumerable<XElement> Get_MemberElements(XElement documentationElement)
+        /// <summary>
+        /// Raw in the sense that no reformatting of the XML content is performed.
+        /// </summary>
+        public IEnumerable<XElement> Enumerate_MemberElements_Raw(XElement documentationElement)
         {
             var membersElement = this.Get_MembersElement(documentationElement);
 
-            var output = Instances.MembersElementXmlOperator.Get_MemberElements(membersElement);
+            var output = Instances.MembersElementXmlOperator.Enumerate_MemberElements_Raw(membersElement);
             return output;
         }
     }
