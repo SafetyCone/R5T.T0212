@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
+using R5T.L0066.Extensions;
 using R5T.L0069.T000;
 using R5T.L0089.T000;
 using R5T.T0132;
@@ -60,7 +61,7 @@ namespace R5T.T0212.F000
 
             await Task.WhenAll(addingMemberDocumentationsByIdentityName);
 
-            var output = memberDocumentationByIdentityName.ToDictionary();
+            var output = memberDocumentationByIdentityName.To_Dictionary();
             return output;
         }
 
