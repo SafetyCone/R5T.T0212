@@ -31,6 +31,6 @@ namespace R5T.T0212.F000
         public static L0056.IXmlFileOperator XmlFileOperator => L0056.XmlFileOperator.Instance;
         public static L0030.IXmlOperator XmlOperator => L0030.XmlOperator.Instance;
         public static Z000.IXmlDocumentationFileElementNames XmlDocumentationFileElementNames => Z000.XmlDocumentationFileElementNames.Instance;
-        public static L0030.IXmlWriterSettingsSets XmlWriterSettingsSets => L0030.XmlWriterSettingsSets.Instance;
+        public static L0053.IXmlWriterSettingsSet XmlWriterSettingsSets => L0053.XmlWriterSettingsSet.Instance;
     }
 }
